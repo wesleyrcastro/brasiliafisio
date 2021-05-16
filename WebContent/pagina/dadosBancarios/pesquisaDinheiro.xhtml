@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces">
+
+  <f:metadata>
+    <f:event listener="#{pesquisarDinheiroBean.inicializar}" type="preRenderView" />
+  </f:metadata>
+
+  <ui:define name="titulo">Pesquisa Pagamento / Dinheiro</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h2>Pesquisa Pagamento / Dinheiro</h2>
+    <h:form id="frmDadoDineiro">
+      <p:growl redisplay="false" />
+      <p:fieldset legend="Filtro Dinâmico">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Aluno:" for="nome" />
+          <p:autoComplete id="nome" value="#{pesquisarDinheiroBean.filtro.aluno}"
+            completeMethod="#{pesquisarDinheiroBean.buscaNomeAluno}" minQueryLength="3" var="aluno"
+            forceSelection="true" itemValue="#{aluno}" itemLabel="#{aluno.nome}" size="40" />
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Curso:" for="curso" />
+          <p:selectOneMenu id="curso" value="#{pesquisarDinheiroBean.filtro.curso}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{cursoBean.listaComboComCurso}" var="curso" itemValue="#{curso}"
+              itemLabel="#{curso.nome}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+          <h:outputLabel value="Mês:" for="mes" />
+          <p:selectOneMenu id="mes" value="#{pesquisarDinheiroBean.filtro.mes}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{pesquisarDinheiroBean.meses}" var="t" itemValue="#{t}" itemLabel="#{t.descricao}" />
+          </p:selectOneMenu>
+
+          <h:outputLabel value="Ano:" for="ano" />
+          <p:selectOneMenu id="ano" value="#{pesquisarDinheiroBean.filtro.ano}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{pesquisarDinheiroBean.anosDinheiro}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <br />
+
+        <h:panelGrid columns="4">
+          <p:commandButton value="Pesquisar" icon="ui-icon-search" update="frmDadoDineiro :frmListaDineiro" />
+          <p:commandButton value="Novo" icon="ui-icon-check" id="botaoNovo"
+            action="/pagina/dadosBancarios/manterDinheiro.xhtml" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+    
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+    <h:form id="formImprimir2" target="_blank">
+      <h2>Listagem dos Pagamentos / Dinheiro</h2>
+      <div style="float: right">
+        <h:panelGrid columns="4">
+          <p:commandButton id="v" value="Gráfico" icon="ui-icon-check"
+            action="/pagina/dadosBancarios/graficoDinheiro?faces-redirect=true" immediate="true" />
+          <p:commandButton value="Imprimir" icon="ui-icon-check"
+            actionListener="#{pesquisarDinheiroBean.relatorioDePagamentoDinheiro}" ajax="false" />
+        </h:panelGrid>
+      </div>
+    </h:form>
+
+    <h:form id="frmListaDineiro">
+      <p:growl redisplay="false" />
+      <p:dataTable id="resultado" value="#{pesquisarDinheiroBean}" var="dinheiro" paginator="true" rows="30" lazy="true"
+        paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+        paginatorPosition="bottom"
+        currentPageReportTemplate="  {startRecord} a {endRecord} no total de {totalRecords} - Página: {currentPage} / {totalPages} "
+        emptyMessage="Nenhum registro">
+
+        <p:column headerText="Aluno" sortBy="#{dinheiro.aluno.nome}">
+          <h:outputText value="#{dinheiro.aluno.nome}" style="width:160px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="Curso">
+          <h:outputText value="#{dinheiro.curso.nome}" style="width:160px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="Data" sortBy="#{dinheiro.data.time}">
+          <h:outputText value="#{dinheiro.data.time}">
+            <f:convertDateTime pattern="dd/MM/yyyy" />
+          </h:outputText>
+        </p:column>
+
+        <p:column headerText="Valor">
+          <div align="right">
+            <h:outputText value="#{dinheiro.valor}" escape="false" style="width:100px">
+              <f:convertNumber type="currency" pattern="R$ #,##0.00" currencySymbol="R$" locale="pt_BR" />
+            </h:outputText>
+
+            <f:facet name="footer">Total: 
+             				 <h:outputText value="#{pesquisarDinheiroBean.soma}">
+                <f:convertNumber type="currency" pattern="R$ #,##0.00" currencySymbol="R$" locale="pt_BR" />
+              </h:outputText>
+            </f:facet>
+          </div>
+        </p:column>
+
+        <p:column headerText="Ações" style="width:100px">
+          <div align="center">
+            <p:button icon="ui-icon-pencil" title="Editar" outcome="/pagina/dadosBancarios/manterDinheiro">
+              <f:param name="id" value="#{dinheiro.id}" />
+            </p:button>
+
+            <p:commandButton icon="ui-icon-trash" title="Excluir" process="@this"
+              action="#{pesquisarDinheiroBean.remove(dinheiro.id)}" update=":frmListaDineiro">
+              <p:confirm header="Exclusão do Pagamento / Dinheiro" message="Deseja excluir estes pagamento?"
+                icon="ui-icon-alert" />
+            </p:commandButton>
+          </div>
+        </p:column>
+
+      </p:dataTable>
+    </h:form>
+  </ui:define>
+</ui:composition>

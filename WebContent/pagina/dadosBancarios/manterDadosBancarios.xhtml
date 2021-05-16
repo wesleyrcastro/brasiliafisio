@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces" xmlns:o="http://omnifaces.org/ui">
+
+  <f:metadata>
+    <o:viewParam name="id" value="#{manterDadosBancariosBean.cheque}" />
+  </f:metadata>
+
+  <ui:define name="titulo">Cadastro de Pagamento / Cheque</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado">
+      <p:growl redisplay="false" />
+
+      <h2>
+        <h:outputText value="Novo Pagamento" rendered="#{empty manterDadosBancariosBean.cheque.id}" />
+        <h:outputText value="Editar Pagamento" rendered="#{not empty manterDadosBancariosBean.cheque.id}" />
+      </h2>
+
+      <p:fieldset legend="Dados Complementares">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Aluno:" for="aluno" />
+          <p:autoComplete id="aluno" value="#{manterDadosBancariosBean.cheque.aluno}"
+            completeMethod="#{pesquisarDadosBancariosBean.buscaNomeAluno}" minQueryLength="3" var="aluno"
+            itemValue="#{aluno}" itemLabel="#{aluno.nome}" required="true" requiredMessage="Aluno obrigatório" size="36" />
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Curso:" for="curso" />
+          <p:selectOneMenu id="curso" value="#{manterDadosBancariosBean.cheque.curso}" required="true"
+            requiredMessage="Curso obrigatório">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{cursoBean.listaComboComCurso}" var="curso" itemValue="#{curso}"
+              itemLabel="#{curso.nome}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+      </p:fieldset>
+
+      <p:fieldset legend="Dados do Banco / Cheque">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Nome do Banco: " for="nomeBanco" />
+          <p:selectOneMenu id="nomeBanco" value="#{manterDadosBancariosBean.cheque.nomeDoBancoENumero}" required="true"
+            requiredMessage="Nome do banco obrigatório">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{manterDadosBancariosBean.nomeDosBancos}" var="banco" itemValue="#{banco}"
+              itemLabel="#{banco.descricao}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+          <h:outputLabel value="* Agência:" for="agencia" />
+          <p:inputText id="agencia" value="#{manterDadosBancariosBean.cheque.agencia}" maxlength="15" required="true"
+            requiredMessage="Agência obrigatório" />
+
+          <h:outputLabel value="* N° da Conta:" for="nConta" />
+          <p:inputText id="nConta" value="#{manterDadosBancariosBean.cheque.numConta}" maxlength="15" required="true"
+            requiredMessage="N° da conta obrigatório" />
+        </h:panelGrid>
+        <br />
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Cheque em nome: " for="ChequeEmNome" />
+          <p:inputText id="ChequeEmNome" value="#{manterDadosBancariosBean.cheque.proprietarioCheque}"
+            style="width:300px" maxlength="45" required="true" requiredMessage="Cheque em nome? Obrigatório">
+
+            <f:validator validatorId="comecaComMaiuscula" />
+          </p:inputText>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+          <h:outputLabel value="* N° do Cheque:" for="numCheque" />
+          <p:inputText id="numCheque" value="#{manterDadosBancariosBean.cheque.numCheque}" maxlength="15"
+            required="true" requiredMessage="N° do cheque obrigatório" onkeyup="apenasNumeros(this)" />
+
+          <h:outputLabel value="* Valor:" for="valor" />
+          <p:inputText id="valor" value="#{manterDadosBancariosBean.cheque.valor}" required="true"
+            requiredMessage="Valor obrigatório" maxlength="15" onkeyup="apenasNumerosVirgula(this)">
+
+            <f:convertNumber type="currency" pattern="#,##0.00" currencySymbol="R$" locale="pt_BR" />
+            <p:ajax update="valor" process="valor" event="change" />
+          </p:inputText>
+
+          <h:outputLabel value="* Entrega:" for="dataEntrega" />
+          <p:calendar id="dataEntrega" pattern="dd/MM/yyyy" value="#{manterDadosBancariosBean.cheque.dataEntrega.time}"
+            locale="pt_BR" effect="explode" effectDuration="slow" required="true"
+            requiredMessage="Data entrega obrigatório" mask="true" converterMessage="Digite uma data entrega válida." />
+
+          <h:outputLabel value="* Depósito:" for="dataDeposito" />
+          <p:calendar id="dataDeposito" pattern="dd/MM/yyyy"
+            value="#{manterDadosBancariosBean.cheque.dataDeposito.time}" locale="pt_BR" effect="explode"
+            effectDuration="slow" required="true" requiredMessage="Depósito obrigatório" mask="true"
+            converterMessage="Digite uma data depósito válida." />
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel id="obs" />
+          <p:inputTextarea counter="obs" value="#{manterDadosBancariosBean.cheque.obs}" rows="3" cols="20"
+            maxlength="120" counterTemplate="{0} Observação: " autoResize="false" />
+        </h:panelGrid>
+
+        <!--         <s:validateForm validatorId="numchequejaexistente" /> -->
+        <br />
+
+        <h:panelGrid columns="2">
+          <p:commandButton id="s" value="Salvar" icon="ui-icon-check" action="#{manterDadosBancariosBean.grava()}"
+            rendered="#{manterDadosBancariosBean.cheque.id == null}" update=":frmDado">
+            <p:confirm header="Inclusão do Pagamento / Cheque" message="Confirma a inclusão do pagamento?"
+              icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="a" value="Alterar" icon="ui-icon-check" action="#{manterDadosBancariosBean.grava()}"
+            rendered="#{manterDadosBancariosBean.cheque.id != null}" update=":frmDado">
+            <p:confirm header="Alterar do Pagamento / Cheque" message="Confirma alteração do pagamento?"
+              icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="v" value="Voltar" icon="ui-icon-alert"
+            action="/pagina/dadosBancarios/pesquisaDadosBancarios?faces-redirect=true" immediate="true" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+  </ui:define>
+</ui:composition>

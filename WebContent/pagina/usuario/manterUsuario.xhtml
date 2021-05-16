@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:s="http://jboss.org/seam/faces">
+
+  <ui:define name="titulo">Cadastro de Usuário</ui:define>
+
+  <ui:define name="corpo">
+  <br/>
+    <h:form id="frmDado">
+      <p:growl redisplay="false"/>
+      <h2>
+        <h:outputText value="Novo Usuário" rendered="#{empty usuarioBean.usuario.id}" />
+        <h:outputText value="Editar Usuário" rendered="#{not empty usuarioBean.usuario.id}" />
+      </h2>
+      <p:fieldset legend="Dados do Usuário">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Cargo:" for="cargo" />
+          <p:selectOneMenu id="cargo" value="#{usuarioBean.usuario.cargo}" required="true"
+            requiredMessage="Cargo obrigatório">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{usuarioBean.cargos}" var="c" itemValue="#{c}" itemLabel="#{c.descricao}" />
+          </p:selectOneMenu>
+
+          <h:outputLabel value="* Nome:" for="nome" />
+          <p:inputText id="nome" value="#{usuarioBean.usuario.nome}" required="true" requiredMessage="Nome obrigatótio">
+            <f:validator validatorId="comecaComMaiuscula" />
+          </p:inputText>
+
+          <h:outputLabel value="* E-mail:" for="email" />
+          <p:inputText id="email" value="#{usuarioBean.usuario.email}" required="true"
+            requiredMessage="E-mail obrigatótio" />
+
+          <h:outputLabel value="* Login:" for="login" />
+          <p:inputText id="login" value="#{usuarioBean.usuario.login}" required="true"
+            requiredMessage="Login obrigatótio" />
+
+          <h:outputLabel value="* Senha:" for="senha" />
+          <p:password id="senha" value="#{usuarioBean.senha}" required="true" requiredMessage="Senha obrigatorio"
+            weakLabel="Senha Fraca" goodLabel="Senha Media" strongLabel="Senha Forte" feedback="true"
+            promptLabel="Cadastre sua senha" />
+
+          <h:outputLabel value="* Repita a Senha:" for="senha2" />
+          <p:password id="senha2" value="#{usuarioBean.confirmacaoSenha}" required="true"
+            requiredMessage="Confirmação de senha obrigatoria" weakLabel="Senha Fraca" goodLabel="Senha Media"
+            strongLabel="Senha Forte" feedback="true" promptLabel="Repita sua senha" />
+        </h:panelGrid>
+
+        <p:watermark for="senha" value="Min. 8 Caracteres!" />
+        <p:watermark for="senha2" value="Min. 8 Caracteres!" />
+        <s:validateForm validatorId="loginjaexistente" />
+        <s:validateForm validatorId="loginesenha" />
+
+        <h:panelGrid columns="2">
+          <p:commandButton id="s" value="Salvar" icon="ui-icon-check" action="#{usuarioBean.grava}" update=":frmDado">
+            <p:confirm header="Inclusão do Usuário" message="Confirma a inclusão do usuário?" icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="v" value="Voltar" icon="ui-icon-alert" action="pesquisaUsuario?faces-redirect=true" immediate="true" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+  </ui:define>
+</ui:composition>

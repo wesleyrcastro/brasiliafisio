@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces">
+
+  <f:metadata>
+    <f:event listener="#{pesquisarTurmaBean.inicializar}" type="preRenderView" />
+  </f:metadata>
+
+  <ui:define name="titulo">Pesquisa Turma</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado">
+      <p:growl redisplay="false" />
+      <h2>Pesquisa Turma</h2>
+      <p:fieldset legend="Filtro Dinâmico">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Aluno:" for="nome" />
+          <p:autoComplete id="nome" value="#{pesquisarTurmaBean.filtro.aluno}"
+            completeMethod="#{pesquisarTurmaBean.buscaNomeAluno}" minQueryLength="3" var="aluno" itemValue="#{aluno}"
+            itemLabel="#{aluno.nome}" size="37" />
+
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Curso:" for="curso" />
+          <p:selectOneMenu id="curso" value="#{pesquisarTurmaBean.filtro.curso}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{cursoBean.listaComboComCurso}" var="curso" itemValue="#{curso}"
+              itemLabel="#{curso.nome}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+          <h:outputLabel value="Mês:" for="mes" />
+          <p:selectOneMenu id="mes" value="#{pesquisarTurmaBean.filtro.mes}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{pesquisarTurmaBean.meses}" var="t" itemValue="#{t}" itemLabel="#{t.descricao}" />
+          </p:selectOneMenu>
+
+          <h:outputLabel value="Ano:" for="ano" />
+          <p:selectOneMenu id="ano" value="#{pesquisarTurmaBean.filtro.ano}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{pesquisarTurmaBean.anosTurmas}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+         &nbsp;
+        <h:panelGrid columns="2">
+          <p:commandButton value="Pesquisar" icon="ui-icon-search" update=":frmLista :frmDado" />
+          <p:commandButton value="Novo" icon="ui-icon-check" id="botaoNovo" action="/pagina/turma/manterTurma.xhtml" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+    <h:form id="formImprimir" target="_blank">
+      <h2>Listagem das Turmas</h2>
+      <p:commandButton value="Imprimir" icon="ui-icon-check" actionListener="#{pesquisarTurmaBean.relatorioDaTurma}"
+        ajax="false" />
+    </h:form>
+
+    <h:form id="frmLista">
+      <p:growl redisplay="false" />
+      <p:dataTable id="tbl" value="#{pesquisarTurmaBean}" var="turma" paginator="true" rows="30" lazy="true"
+        paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+        paginatorPosition="bottom" 
+        currentPageReportTemplate="  {startRecord} a {endRecord} no total de {totalRecords} - Página: {currentPage} / {totalPages} "
+        emptyMessage="Nenhum registro" >
+
+        <p:column headerText="Aluno" sortBy="#{turma.aluno.nome}">
+          <h:outputText value="#{turma.aluno.nome}" style="width:160px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="Curso">
+          <h:outputText value="#{turma.curso.nome}" style="width:160px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="Data Início" sortBy="#{turma.dataInicio.time}" style="text-align: center">
+          <h:outputText value="#{turma.dataInicio.time}">
+            <f:convertDateTime pattern="dd/MM/yyyy" />
+          </h:outputText>
+        </p:column>
+
+        <p:column headerText="Data Fim" style="text-align: center">
+          <h:outputText value="#{turma.dataFim.time}">
+            <f:convertDateTime pattern="dd/MM/yyyy" />
+          </h:outputText>
+        </p:column>
+
+        <p:column headerText="Ações" exportable="false" style="width:100px">
+          <div align="center">
+            <p:button icon="ui-icon-pencil" title="Editar" outcome="/pagina/turma/manterTurma">
+              <f:param name="id" value="#{turma.id}" />
+            </p:button>
+
+            <p:commandButton icon="ui-icon-trash" title="Excluir" process="@this"
+              action="#{pesquisarTurmaBean.remove(turma.id)}" update=":frmLista">
+              <p:confirm header="Exclusão do Aluno" message="Deseja excluir este aluno?" icon="ui-icon-alert" />
+            </p:commandButton>
+          </div>
+        </p:column>
+      </p:dataTable>
+
+      <div align="right" style="margin-top: 5px;">
+        <h:commandLink id="excel">
+          <h:graphicImage library="imagens" name="excel.png" />
+          <p:dataExporter type="xls" target="tbl" fileName="daoTurma"
+            postProcessor="#{pesquisarTurmaBean.postProcessXLS}" />
+        </h:commandLink>
+      </div>
+    </h:form>
+  </ui:define>
+</ui:composition>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces" xmlns:o="http://omnifaces.org/ui">
+
+  <f:metadata>
+    <o:viewParam name="id" value="#{manterAlunoBean.aluno}" />
+  </f:metadata>
+
+  <ui:define name="titulo">Cadastro de Aluno</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado" prependId="false">
+      <p:growl redisplay="false" />
+      <h:inputHidden id="pid" value="#{manterAlunoBean.aluno.id}" />
+      <h:inputHidden id="idt" value="#{manterAlunoBean.aluno.id}" />
+      <h2>
+        <h:outputText value="Novo Aluno" rendered="#{empty manterAlunoBean.aluno.id}" />
+        <h:outputText value="Editar Aluno" rendered="#{not empty manterAlunoBean.aluno.id}" />
+      </h2>
+
+      <p:fieldset legend="Dados do Aluno">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Nome: " for="titular" title="Preencha seu nome como deve aparecer no certificado." />
+          <p:inputText id="titular" value="#{manterAlunoBean.aluno.nome}" required="true"
+            requiredMessage="Nome obrigatório" style="width:320px;word-wrap:break-word;display:block" styleClass="up">
+            <!--             <f:validator validatorId="comecaComMaiuscula" /> -->
+          </p:inputText>
+
+          <h:outputLabel value="* CPF: " for="cpf" />
+          <p:inputMask id="cpf" value="#{manterAlunoBean.aluno.cpf}" mask="999.999.999-99" required="true"
+            requiredMessage="CPF obrigatório" />
+
+          <h:outputLabel value="* RG: " for="identidade" />
+          <p:inputText id="identidade" value="#{manterAlunoBean.aluno.identidade}" maxlength="15" required="true"
+            requiredMessage="RG obrigatório" styleClass="up" />
+
+          <h:outputLabel value="* Orgão Exped.:" for="org" />
+          <p:inputText id="org" value="#{manterAlunoBean.aluno.orgaoExp}" maxlength="10" required="true"
+            requiredMessage="Orgão expeditor obrigatório" styleClass="up" />
+
+          <h:outputLabel value="* E-mail:" for="email" />
+          <p:inputText id="email" value="#{manterAlunoBean.aluno.email}" required="true"
+            requiredMessage="E-mail obrigatório" style="width:320px;word-wrap:break-word;display:block" styleClass="lo" />
+
+          <h:outputLabel value="* Data de Nasc.:" for="dataNasc" />
+          <p:calendar id="dataNasc" pattern="dd/MM/yyyy" value="#{manterAlunoBean.aluno.dataNasc}" locale="pt_BR"
+            effect="explode" effectDuration="slow" required="true" requiredMessage="Data de nascimento obrigatório"
+            navigator="true" yearRange="c-70:c+10" mask="true" converterMessage="Digite uma data de nascimento válida." />
+
+          <h:outputLabel value="* Sexo:" for="sexo" />
+          <p:selectOneMenu id="sexo" value="#{manterAlunoBean.aluno.sexo}" required="true"
+            requiredMessage="Sexo obrigatório">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{manterAlunoBean.sexos}" var="a" itemValue="#{a}" itemLabel="#{a.descricao}" />
+          </p:selectOneMenu>
+
+          <h:outputLabel value="Tel. Residencial: " for="telResid" />
+          <p:inputText id="telResid" value="#{manterAlunoBean.aluno.telResidencial}" styleClass="phone" />
+
+          <h:outputLabel value="* Tel. Celular: " for="telCel" />
+          <p:inputText id="telCel" value="#{manterAlunoBean.aluno.telCelular}" styleClass="phone" required="true"
+            requiredMessage="Tel. Celular obrigatório" />
+        </h:panelGrid>
+
+        <h:panelGrid columns="3">
+          <h:outputLabel value="* CEP: " for="cep" />
+          <p:inputMask id="cep" value="#{manterAlunoBean.aluno.cep}" mask="99.999-999" required="true"
+            requiredMessage="CEP obrigatório" onblur="getDadosEndereco()" />
+            &nbsp; &nbsp;
+		  <a href="http://www.buscacep.correios.com.br/" target="_blank"> Não sei meu CEP </a>
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+
+          <h:outputLabel value="* Endereço: " for="endereco" />
+          <p:inputText id="endereco" value="#{manterAlunoBean.aluno.endereco}"
+            style="width:320px;word-wrap:break-word;display:block" maxlength="45" required="true"
+            requiredMessage="Endereço obrigatório" />
+
+          <h:outputLabel value="Complemento: " for="comp" />
+          <p:inputText id="comp" value="#{manterAlunoBean.aluno.complemento}"
+            style="width:320px;word-wrap:break-word;display:block" maxlength="45" />
+
+          <h:outputLabel value="* Bairro: " for="bairro" />
+          <p:inputText id="bairro" value="#{manterAlunoBean.aluno.bairro}"
+            style="width:320px;word-wrap:break-word;display:block" maxlength="45" required="true"
+            requiredMessage="Bairro obrigatório" />
+
+          <h:outputLabel value="* Cidade: " for="cidade" />
+          <p:inputText id="cidade" value="#{manterAlunoBean.aluno.cidade}" maxlength="25" required="true"
+            requiredMessage="Cidade obrigatório" style="width:320px;word-wrap:break-word;display:block" />
+
+          <h:outputLabel value="* Estado:" for="estado" />
+          <p:selectOneMenu id="estado" value="#{manterAlunoBean.aluno.estado}" required="true"
+            requiredMessage="Estado obrigatório">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{manterAlunoBean.estados}" var="a" itemValue="#{a}" itemLabel="#{a.descricao}" />
+          </p:selectOneMenu>
+
+          <h:outputLabel value="País: " for="pais" />
+          <p:inputText id="pais" value="#{manterAlunoBean.aluno.pais}" maxlength="25" />
+
+          <h:outputLabel value="* Ocupação: " for="ocupacao" />
+          <p:inputText id="ocupacao" value="#{manterAlunoBean.aluno.ocupacao}" maxlength="45"
+            style="width:320px;word-wrap:break-word;display:block" required="true"
+            requiredMessage="Ocupação obrigatório" />
+
+          <h:outputLabel value="Nº do Registro: " for="nRegistro" />
+          <p:inputText id="nRegistro" value="#{manterAlunoBean.aluno.numRegistroProfissional}" maxlength="30"
+            styleClass="up" />
+
+          <h:outputLabel value="* Crie sua  Senha:" for="senha" />
+          <p:password id="senha" value="#{manterAlunoBean.senhaAluno}" required="true"
+            requiredMessage="Senha obrigatorio" weakLabel="Senha Fraca" goodLabel="Senha Media"
+            strongLabel="Senha Forte" feedback="true" promptLabel="Cadastre sua senha" />
+
+          <h:outputLabel value="* Repita a Senha:" for="senha2" />
+          <p:password id="senha2" value="#{manterAlunoBean.confirmacaoSenha}" required="true"
+            requiredMessage="Confirmação de senha obrigatoria" weakLabel="Senha Fraca" goodLabel="Senha Media"
+            strongLabel="Senha Forte" feedback="true" promptLabel="Repita sua senha" />
+        </h:panelGrid>
+
+        <p:watermark for="titular" value="Como deve aparecer no certificado do curso" />
+        <p:watermark for="telResid" value="(99) 9999-9999" />
+        <p:watermark for="telCel" value="(99) 99999-9999" />
+        <p:watermark for="dataNasc" value="99/99/9999" />
+        <p:watermark for="senha" value="Min. 8 Caracteres!" />
+        <p:watermark for="senha2" value="Min. 8 Caracteres!" />
+        <s:validateForm validatorId="cpfjaexistente" />
+        <s:validateForm validatorId="idtjaexistente" />
+        <br />
+        <h:panelGrid columns="2">
+          <p:commandButton id="s" value="Salvar" icon="ui-icon-check" action="#{manterAlunoBean.grava}"
+            rendered="#{manterAlunoBean.aluno.id == null}" update=":frmDado">
+            <p:confirm header="Cadastro do Aluno" message="Confirma o cadastro do aluno?" icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="a" value="Alterar" icon="ui-icon-check" action="#{manterAlunoBean.altera}"
+            rendered="#{manterAlunoBean.aluno.id != null}" update=":frmDado">
+            <p:confirm header="Alterar Aluno" message="Confirma alteração do aluno?" icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="v" value="Voltar" icon="ui-icon-alert"
+            action="/pagina/aluno/pesquisaAluno?faces-redirect=true" immediate="true" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+  </ui:define>
+</ui:composition>

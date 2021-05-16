@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces" xmlns:o="http://omnifaces.org/ui">
+
+  <f:metadata>
+    <o:viewParam name="id" value="#{manterInscricaoBean.inscricao}" />
+  </f:metadata>
+
+  <ui:define name="titulo">Cadastro de Pagemanto / Dinheiro</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado">
+      <p:growl redisplay="false" />
+      <h2>
+        <h:outputText value="Editar Pré-inscrição" />
+      </h2>
+      <p:fieldset id="enviar" legend="Dados da Pré-inscrição">
+        <h:panelGrid columns="2">
+
+          <h:outputLabel value="* Nome: " for="titular" />
+          <p:inputText id="titular" value="#{manterInscricaoBean.inscricao.aluno.nome}" disabled="true"
+            style="width:350px;word-wrap:break-word;display:block" />
+
+          <h:outputLabel value="* Curso: " />
+          <p:selectOneMenu value="#{manterInscricaoBean.inscricao.curso}" disabled="true">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{cursoBean.listaComboComCurso}" var="curso" itemValue="#{curso}"
+              itemLabel="#{curso.nome}" />
+          </p:selectOneMenu>
+
+          <h:outputLabel value="* Data/Hora: " for="data" />
+          <p:calendar id="data" pattern="dd/MM/yyyy - HH:mm:ss" value="#{manterInscricaoBean.inscricao.data.time}"
+            locale="pt_BR" timeZone="America/Sao_Paulo" disabled="true" />
+        </h:panelGrid>
+
+        <h:panelGroup>
+          <h:outputLabel value="* Como Soube do Curso:" />
+          <h:panelGrid columns="3">
+            <p:selectOneMenu id="indicacao" value="#{manterInscricaoBean.inscricao.indicacao}" disabled="true">
+              <f:selectItem itemLabel="-- Selecione --" noSelectionOption="true" />
+              <f:selectItems value="#{manterInscricaoBean.indicacoes}" var="i" itemValue="#{i}"
+                itemLabel="#{i.descricao}" />
+            </p:selectOneMenu>
+
+            <p:inputText id="outros" value="#{manterInscricaoBean.inscricao.outros}" style="width:154px" maxlength="45"
+              disabled="true" />
+          </h:panelGrid>
+        </h:panelGroup>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel id="obsAluno" />
+          <p:inputTextarea counter="obsAluno" value="#{manterInscricaoBean.inscricao.obsAluno}" rows="4" cols="50"
+            maxlength="120" counterTemplate="{0} Observação: " autoResize="false" disabled="true" style="width: 350px" />
+
+          <h:outputLabel id="obsBrasiliafisio" />
+          <p:inputTextarea counter="obsBrasiliafisio" value="#{manterInscricaoBean.inscricao.obsBrasiliafisio}" rows="4"
+            cols="50" maxlength="120" counterTemplate="{0} Status da Pré-inscrição: " autoResize="false"
+            style="width: 350px" />
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <p:commandButton id="a" value="Alterar" icon="ui-icon-check" action="#{manterInscricaoBean.alterar}"
+            update=":frmDado">
+            <p:confirm header="Alterar Pré-inscrição" message="Confirma alteração da pré-inscrição?"
+              icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="v" value="Voltar" icon="ui-icon-alert"
+            action="/pagina/inscricao/pesquisaInscricao?faces-redirect=true" immediate="true" />
+        </h:panelGrid>
+      </p:fieldset>
+      <p:blockUI block="enviar" trigger="a"></p:blockUI>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+  </ui:define>
+</ui:composition>

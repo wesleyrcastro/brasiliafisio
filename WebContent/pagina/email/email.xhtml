@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:s="http://jboss.org/seam/faces">
+
+  <ui:define name="titulo">Seja Bem Vindo</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="formInicio">
+      <p:growl redisplay="false"/>
+      <div align="center">
+        <p:outputPanel>
+          <p:panel id="enviar" header="Envio de e-mail" style="width: 700px">
+            <div align="left">
+              <h:panelGrid columns="2">
+                <h:outputText value="Para: " />
+                <p:inputText value="#{emailBean.mensagem.destino}" style="width: 500px" required="true"
+                  requiredMessage="E-mail de destino obrigatório" />
+
+                <h:outputText value="Título: " />
+                <p:inputText value="#{emailBean.mensagem.titulo}" style="width: 500px" required="true" requiredMessage="Título obrigatório" />
+
+                <h:outputText value="Mensagem: " />
+                <p:inputTextarea value="#{emailBean.mensagem.mensagem}" rows="5" style="width: 500px" required="true"
+                  requiredMessage="Mensagem obrigatório" />
+              </h:panelGrid>
+
+              <h:panelGrid columns="2">
+                <p:commandButton id="e" value="Enviar e-mail" icon="ui-icon-mail-closed" action="#{emailBean.enviaEmail}"
+                  update=":formInicio" />
+                <p:commandButton id="l" value="Limpar campos" icon="ui-icon-circle-close" action="#{emailBean.limpaCampos}"
+                  update=":formInicio" process="@this"/>
+              </h:panelGrid>
+              <h:panelGrid columns="1">
+                <p:commandButton id="v" value="Voltar" icon="ui-icon-alert" action="/pagina/usuario/pesquisaUsuario?faces-redirect=true"
+                  immediate="true" />
+              </h:panelGrid>
+            </div>
+          </p:panel>
+        </p:outputPanel>
+      </div>
+      <p:blockUI block="enviar" trigger="e"></p:blockUI>
+    </h:form>
+  </ui:define>
+</ui:composition>

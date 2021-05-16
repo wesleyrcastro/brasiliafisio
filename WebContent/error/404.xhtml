@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:s="http://jboss.org/seam/faces">
+
+  <ui:define name="titulo">Página não encontrada - 404</ui:define>
+  
+  <ui:define name="corpo">
+    <h:form>
+      <div align="center">
+        <br />
+        <p:outputPanel>
+          <p:panel header="Error" style="width: 700px">
+            <br />
+            <h3 align="center">A página solicitada não foi encontrada! Tente novamente.</h3>
+            <div>
+              <br />
+              <h:graphicImage library="imagens" name="erro.jpg" id="logoCompany" />
+            </div>
+            <br />
+          </p:panel>
+        </p:outputPanel>
+      </div>
+    </h:form>
+  </ui:define>
+</ui:composition>
+
+

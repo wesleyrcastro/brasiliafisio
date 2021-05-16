@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces">
+
+  <f:metadata>
+    <f:event listener="#{pesquisarInscricaoBean.inicializar}" type="preRenderView" />
+  </f:metadata>
+
+  <ui:define name="titulo">Pesquisa Pré-inscrição</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h2>Pesquisa Pré-inscrição</h2>
+    <h:form id="frmDados">
+      <p:growl redisplay="false" />
+      <p:fieldset legend="Filtro Dinâmico">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Aluno:" for="nome" />
+          <p:autoComplete id="nome" value="#{pesquisarInscricaoBean.filtro.aluno}"
+            completeMethod="#{pesquisarInscricaoBean.buscaNomeAluno}" minQueryLength="3" forceSelection="true"
+            var="aluno" itemValue="#{aluno}" itemLabel="#{aluno.nome}" size="40" />
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Curso:" for="curso" />
+          <p:selectOneMenu id="curso" value="#{pesquisarInscricaoBean.filtro.curso}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{cursoBean.listaComboComCurso}" var="curso" itemValue="#{curso}"
+              itemLabel="#{curso.nome}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Como soube do curso:" for="indicacao" />
+          <p:selectOneMenu id="indicacao" value="#{pesquisarInscricaoBean.filtro.indicacao}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{pesquisarInscricaoBean.indicacoes}" var="indicacao" itemValue="#{indicacao}"
+              itemLabel="#{indicacao.descricao}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+          <h:outputLabel value="Mês:" for="mes" />
+          <p:selectOneMenu id="mes" value="#{pesquisarInscricaoBean.filtro.mes}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{pesquisarInscricaoBean.meses}" var="t" itemValue="#{t}" itemLabel="#{t.descricao}" />
+          </p:selectOneMenu>
+
+          <h:outputLabel value="Ano:" for="ano" />
+          <p:selectOneMenu id="ano" value="#{pesquisarInscricaoBean.filtro.ano}">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{pesquisarInscricaoBean.anosIncricoes}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <br />
+
+        <h:panelGrid columns="4">
+          <p:commandButton value="Pesquisar" icon="ui-icon-search" update=":frmDados :frmLista" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+    <h:form id="formImprimir2" target="_blank">
+      <h2>Listagem de Pré-inscrições</h2>
+      <div style="float: right">
+        <h:panelGrid columns="4">
+          <p:commandButton value="Imprimir" icon="ui-icon-check"
+            actionListener="#{pesquisarInscricaoBean.relatorioDeInscricao}" ajax="false" />
+        </h:panelGrid>
+      </div>
+    </h:form>
+
+    <h:form id="frmLista">
+      <p:growl redisplay="false" sticky="false" life="20000" />
+      <p:dataTable id="tbl" value="#{pesquisarInscricaoBean}" var="inscricao" paginator="true" rows="30" lazy="true"
+        paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+        paginatorPosition="bottom"
+        currentPageReportTemplate="  {startRecord} a {endRecord} no total de {totalRecords} - Página: {currentPage} / {totalPages} "
+        emptyMessage="Nenhuma pré-inscricão cadastrada">
+
+        <p:column headerText="Aluno" sortBy="#{inscricao.aluno.nome}">
+          <h:outputText value="#{inscricao.aluno.nome}" style="width:130px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="E-mail" sortBy="#{inscricao.aluno.email}">
+          <h:outputText value="#{inscricao.aluno.email}" style="width:130px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="Curso" sortBy="#{inscricao.curso.nome}">
+          <h:outputText value="#{inscricao.curso.nome}" style="width:130px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="Data/Hora" sortBy="#{inscricao.data.time}" style="text-align: center">
+          <h:outputText value="#{inscricao.data.time}" style="width:60px;">
+            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="pt,BR" timeZone="America/Sao_Paulo" />
+          </h:outputText>
+        </p:column>
+
+        <p:column headerText="Status da Pré-inscrição">
+          <h:outputText value="#{inscricao.obsBrasiliafisio}" style="width:130px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="Ações" exportable="false" style="width:100px">
+          <div align="center">
+            <p:button icon="ui-icon-pencil" title="Editar" outcome="/pagina/inscricao/manterInscricao">
+              <f:param name="id" value="#{inscricao.id}" />
+            </p:button>
+
+            <p:commandButton icon="ui-icon-trash" title="Excluir" process="@this"
+              action="#{pesquisarInscricaoBean.remove(inscricao.id)}" update=":frmLista">
+              <p:confirm header="Exclusão da Pré-inscrição" message="Deseja excluir esta pré-inscrição?"
+                icon="ui-icon-alert" />
+            </p:commandButton>
+          </div>
+        </p:column>
+      </p:dataTable>
+
+      <div align="right" style="margin-top: 5px;">
+        <h:commandLink id="excel">
+          <h:graphicImage library="imagens" name="excel.png" />
+          <p:dataExporter type="xls" target="tbl" fileName="daoInscricao"
+            postProcessor="#{pesquisarInscricaoBean.postProcessXLS}" />
+        </h:commandLink>
+      </div>
+    </h:form>
+  </ui:define>
+</ui:composition>

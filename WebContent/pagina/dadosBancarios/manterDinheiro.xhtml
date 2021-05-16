@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces" xmlns:o="http://omnifaces.org/ui">
+
+  <f:metadata>
+    <o:viewParam name="id" value="#{manterDinheiroBean.dinheiro}" />
+  </f:metadata>
+
+  <ui:define name="titulo">Cadastro de Pagemanto / Dinheiro</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado">
+      <p:growl redisplay="false" />
+
+      <h2>
+        <h:outputText value="Novo Pagamento" rendered="#{empty manterDinheiroBean.dinheiro.id}" />
+        <h:outputText value="Editar Pagamento" rendered="#{not empty manterDinheiroBean.dinheiro.id}" />
+      </h2>
+
+      <p:fieldset legend="Dados Complementares">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Aluno:" for="aluno" />
+          <p:autoComplete id="aluno" value="#{manterDinheiroBean.dinheiro.aluno}"
+            completeMethod="#{pesquisarDinheiroBean.buscaNomeAluno}" minQueryLength="3" var="aluno" itemValue="#{aluno}"
+            itemLabel="#{aluno.nome}" required="true" requiredMessage="Aluno obrigatório" size="35" />
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Curso:" for="curso" />
+          <p:selectOneMenu id="curso" value="#{manterDinheiroBean.dinheiro.curso}" required="true"
+            requiredMessage="Curso obrigatório">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{cursoBean.listaComboComCurso}" var="curso" itemValue="#{curso}"
+              itemLabel="#{curso.nome}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+      </p:fieldset>
+
+      <p:fieldset legend="Dados do Pagamento / Dinheiro" rendered="true">
+        <h:panelGrid columns="4">
+          <h:outputLabel value="* Data:" for="dataDinheiro" />
+          <p:calendar id="dataDinheiro" pattern="dd/MM/yyyy" value="#{manterDinheiroBean.dinheiro.data.time}"
+            locale="pt_BR" effect="explode" effectDuration="slow" required="true" requiredMessage="Data obrigatório"
+            mask="true" converterMessage="Digite uma data válida." />
+
+          <h:outputLabel value="* Valor:" for="valorDinheiro" />
+          <p:inputText id="valorDinheiro" value="#{manterDinheiroBean.dinheiro.valor}" required="true"
+            requiredMessage="Valor obrigatório" maxlength="15" onkeyup="apenasNumerosVirgula(this)">
+
+            <f:convertNumber type="currency" pattern="#,##0.00" currencySymbol="R$" locale="pt_BR" />
+            <p:ajax update="valorDinheiro" process="valorDinheiro" event="change" />
+          </p:inputText>
+
+
+
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel id="obsDinheiro" />
+          <p:inputTextarea counter="obsDinheiro" value="#{manterDinheiroBean.dinheiro.obs}" rows="3" cols="20"
+            maxlength="60" counterTemplate="{0} Observação: " autoResize="false" />
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <p:commandButton id="s" value="Salvar" icon="ui-icon-check" action="#{manterDinheiroBean.grava}"
+            rendered="#{dinheiroBean.dinheiro.id == null}" update=":frmDado">
+            <p:confirm header="Inclusão do Pagamento / Dinheiro" message="Confirma a inclusão do pagamento?"
+              icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="a" value="Alterar" icon="ui-icon-check" action="#{manterDinheiroBean.grava}"
+            rendered="#{dinheiroBean.dinheiro.id != null}" update=":frmDado">
+            <p:confirm header="Alterar Pagamento / Dinheiro" message="Confirma alteração do pagamento?"
+              icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="v" value="Voltar" icon="ui-icon-alert"
+            action="/pagina/dadosBancarios/pesquisaDinheiro?faces-redirect=true" immediate="true" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+  </ui:define>
+</ui:composition>

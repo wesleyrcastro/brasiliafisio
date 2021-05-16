@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:s="http://jboss.org/seam/faces">
+  
+  <ui:define name="titulo">Login</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h2>Login no Sistema</h2>
+    <h:form id="formLogin" prependId="false">
+      <p:growl autoUpdate="true" redisplay="false"/>
+      <p:focus context="formLogin" />
+
+      <h:panelGrid columns="2" styleClass="campos">
+        <h:outputLabel value="Login:" for="login" />
+        <p:inputText id="login" value="#{loginBean.usuario.login}" required="true" requiredMessage="Login obrigatório"
+          style="width:250px" maxlength="50"/>
+
+        <h:outputLabel value="Senha:" for="senha" />
+        <p:password id="senha" value="#{loginBean.usuario.senha}" required="true" requiredMessage="Senha obrigatório"
+          style="width:250px" maxlength="25"/>
+      </h:panelGrid>
+      <br />
+      <p:commandButton value="Efetuar Login" action="#{loginBean.efetuaLogin}" ajax="false"/>
+    </h:form>
+  </ui:define>
+</ui:composition>

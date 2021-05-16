@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces">
+
+  <ui:define name="titulo">Pesquisa Aluno</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado">
+      <p:growl redisplay="false" />
+      <h2>Pesquisa Aluno</h2>
+      <p:fieldset legend="Digite o nome do aluno">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Nome:" />
+          <p:inputText id="tag" value="#{pesquisarAlunoBean.filtro.nome}" style="width:305px" />
+               &nbsp;
+		    </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <p:commandButton value="Pesquisar" icon="ui-icon-search" update=":frmLista :frmDado" />
+          <p:commandButton value="Novo" icon="ui-icon-check" id="botaoNovo" action="/pagina/aluno/manterAluno.xhtml" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+    <h:form id="formImprimir" target="_blank">
+      <h2>Listagem dos Alunos</h2>
+      <p:commandButton value="Imprimir" icon="ui-icon-check" actionListener="#{pesquisarAlunoBean.relatorioDeAluno}"
+        ajax="false" />
+    </h:form>
+
+    <h:form id="frmLista">
+      <p:growl redisplay="false" />
+      <p:dataTable id="resultado" value="#{pesquisarAlunoBean}" var="aluno" paginator="true" rows="30" lazy="true"
+        paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+        paginatorPosition="bottom"
+        currentPageReportTemplate="  {startRecord} a {endRecord} no total de {totalRecords} - Página: {currentPage} / {totalPages} "
+        emptyMessage="Nenhum registro">
+
+        <p:column headerText="Nome" sortBy="#{aluno.nome}">
+          <h:outputText value="#{aluno.nome}" style="width:160px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="CPF">
+          <h:outputText value="#{aluno.cpf}" style="width:80px" />
+        </p:column>
+
+        <p:column headerText="E-mail">
+          <h:outputText value="#{aluno.email}" style="width:160px;word-wrap:break-word;display:block" />
+        </p:column>
+
+        <p:column headerText="Tel. Celular">
+          <h:outputText value="#{aluno.telCelular}" style="width:120px" />
+        </p:column>
+
+        <p:column headerText="Ações" style="width:100px">
+          <div align="center">
+            <p:button icon="ui-icon-pencil" title="Editar" outcome="/pagina/aluno/manterAluno">
+              <f:param name="id" value="#{aluno.id}" />
+            </p:button>
+
+            <p:commandButton icon="ui-icon-trash" title="Excluir" process="@this"
+              action="#{pesquisarAlunoBean.remove(aluno.id)}" update=":frmLista">
+              <p:confirm header="Exclusão do Aluno" message="Deseja excluir este Aluno?" icon="ui-icon-alert" />
+            </p:commandButton>
+          </div>
+        </p:column>
+      </p:dataTable>
+    </h:form>
+  </ui:define>
+</ui:composition>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces">
+
+  <ui:define name="titulo">Como Soube da BrasiliaFisio / Indicação</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="formGrafico">
+      <p:growl />
+      <h1 align="center">Como Soube da BrasiliaFisio / Indicação</h1>
+      <p:pieChart value="#{pesquisarInscricaoBean.relatorioPorIndicacao}" legendPosition="w" diameter="400"
+        style="height:500px;" showDataLabels="true" />
+      <br />
+      <p:barChart value="#{inscricaoBean.gerarPorIndicacao}" legendPosition="w" title="Movimentaçoes Barra"
+        style="width:400px;height:400px" />
+      <br />s
+         <h:panelGrid columns="2">
+        <p:commandButton id="v" value="Voltar" icon="ui-icon-alert"
+          action="/pagina/inscricao/pesquisaInscricao?faces-redirect=true" immediate="true" />
+      </h:panelGrid>
+    </h:form>
+  </ui:define>
+</ui:composition>

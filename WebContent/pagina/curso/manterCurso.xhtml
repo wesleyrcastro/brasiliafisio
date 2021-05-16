@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:s="http://jboss.org/seam/faces">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{cursoBean.curso}"/>
+	</f:metadata>
+
+  <ui:define name="titulo">Cadastro de Curso</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado">
+      <p:growl redisplay="false"/>
+      <h:inputHidden id="pid" value="#{cursoBean.curso.id}" />
+      <h2>
+        <h:outputText value="Novo Curso" rendered="#{empty cursoBean.curso.id}" />
+        <h:outputText value="Editar Curso" rendered="#{not empty cursoBean.curso.id}" />
+      </h2>
+
+      <p:fieldset legend="Dados do Curso">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Nome: " for="nome" />
+          <p:inputText id="nome" value="#{cursoBean.curso.nome}" required="true" requiredMessage="Nome obrigatório"
+            style="width:305px;word-wrap:break-word;display:block">
+
+            <f:validator validatorId="comecaComMaiuscula" />
+          </p:inputText>
+          
+          <h:outputLabel value="* Status:" for="status" />
+          <p:selectOneMenu id="status" value="#{cursoBean.curso.status}" required="true" requiredMessage="Status obrigatório">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{cursoBean.status}" var="st" itemValue="#{st}" itemLabel="#{st.descricao}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <s:validateForm validatorId="cursojaexistente" />
+        <br />
+        <h:panelGrid columns="2">
+          <p:commandButton id="s" value="Salvar" icon="ui-icon-check" action="#{cursoBean.grava()}" rendered="#{cursoBean.curso.id == null}"
+            update=":frmDado">
+            <p:confirm header="Inclusão do Curso" message="Confirma a inclusão do curso?" icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="a" value="Alterar" icon="ui-icon-check" action="#{cursoBean.grava()}" rendered="#{cursoBean.curso.id != null}"
+            update=":frmDado">
+            <p:confirm header="Alterar Curso" message="Confirma alteração do Curso?" icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="v" value="Voltar" icon="ui-icon-alert" action="pesquisaCurso?faces-redirect=true" immediate="true" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+  </ui:define>
+</ui:composition>

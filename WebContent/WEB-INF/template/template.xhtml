@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces">
+
+<h:head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title><ui:insert name="titulo">BrasiliaFisio</ui:insert></title>
+  <h:outputStylesheet library="css" name="style.css" />
+  <h:outputScript library="javascript" name="funcoes.js" />
+  <h:outputScript library="javascript" name="jquery.mask.min.js" /> 
+  <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/resources/imagens/favicon.ico" />
+</h:head>
+
+<h:body onkeydown="return my_onkeydown_handler(event);">
+  <div id="cabecalho">
+    <h:graphicImage library="imagens" name="logo-uber.png" id="logoCompany" />
+
+    <div id="usuarioLogado">
+      <h:form rendered="#{usuarioLogado.logado}">
+            Usuário: #{usuarioLogado.usuario.login}
+            <p:commandLink value="[Sair]" action="#{loginBean.logout}" />
+       </h:form>
+    </div>
+  </div>
+
+  <div id="conteudo">
+    <h:form>
+      <p:menubar rendered="#{usuarioLogado.logado}">
+        <p:menuitem value="PESQUISA CURSO" url="/pagina/curso/pesquisaCurso.xhtml" icon="ui-icon-document" />
+        
+        <p:submenu label="PESQUISA ALUNO" icon="ui-icon ui-icon-document">
+          <p:menuitem value="ALUNO" url="/pagina/aluno/pesquisaAluno.xhtml" />
+          <p:separator />
+          <p:menuitem value="PRÉ-INSCRIÇÃO" url="/pagina/inscricao/pesquisaInscricao.xhtml" />
+        </p:submenu>
+        
+        <p:menuitem value="PESQUISA TURMA" url="/pagina/turma/pesquisaTurma.xhtml" icon="ui-icon-document" />
+        
+        <p:submenu label="PESQUISA PAGAMENTO" icon="ui-icon ui-icon-document" >
+          <p:menuitem value="CHEQUE" url="/pagina/dadosBancarios/pesquisaDadosBancarios.xhtml" />
+          <p:separator />
+          <p:menuitem value="DINHEIRO" url="/pagina/dadosBancarios/pesquisaDinheiro.xhtml" />
+        </p:submenu>
+        
+        <p:menuitem value="PESQUISA USUÁRIO" url="/pagina/usuario/pesquisaUsuario.xhtml" icon="ui-icon-document"
+          rendered="#{usuarioLogado.controleAcesso}" />
+      </p:menubar>
+    </h:form>
+
+    <ui:insert name="corpo" />
+  </div>
+
+  <div id="rodape">Copyright. Todos direitos reservados a BrasiliaFisio.</div>
+  
+  <script>
+            function validatePhone() {
+
+                var masks = ['(00) 00000-0000', '(00) 0000-00009'],
+                    maskBehavior = function(val, e, field, options) {
+                        return val.length > 14 ? masks[0] : masks[1];
+                    };
+
+                $('.phone').mask(maskBehavior, {onKeyPress:
+                            function(val, e, field, options) {
+                                field.mask(maskBehavior(val, e, field, options), options);
+                            }
+                });
+            }
+            $(document).ready(function() {
+                validatePhone()
+            }
+            );
+        </script>
+</h:body>
+</html>

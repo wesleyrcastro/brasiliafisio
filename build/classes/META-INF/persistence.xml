@@ -1,0 +1,55 @@
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence">
+  <persistence-unit name="brasiliafisio" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+    <class>br.com.brasiliaFisio.cursos.modelo.Aluno</class>
+    <class>br.com.brasiliaFisio.cursos.modelo.Cheque</class>
+    <class>br.com.brasiliaFisio.cursos.modelo.Curso</class>
+    <class>br.com.brasiliaFisio.cursos.modelo.Dinheiro</class>
+    <class>br.com.brasiliaFisio.cursos.modelo.Inscricao</class>
+    <class>br.com.brasiliaFisio.cursos.modelo.LoginBloqueado</class>
+    <class>br.com.brasiliaFisio.cursos.modelo.Turma</class>
+    <class>br.com.brasiliaFisio.cursos.modelo.Usuario</class>
+
+    <properties>
+      <property name="javax.persistence.validation.mode" value="none" />
+
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+      
+<!-- 		<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql.brasiliafisio.fst.br/brasiliafisio"/> -->
+<!-- 		<property name="javax.persistence.jdbc.user" value="brasiliafisio"/> -->
+<!-- 		<property name="javax.persistence.jdbc.password" value="mirella850420"/> -->
+
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/brasiliacursos" />
+      <property name="javax.persistence.jdbc.user" value="root" />
+      <property name="javax.persistence.jdbc.password" value="" />
+
+      <property name="hibernate.hbm2ddl.auto" value="update" />
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.format_sql" value="true" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+
+      <property name="hibernate.cache.use_second_level_cache" value="true" />
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider" />
+      <property name="hibernate.cache.use_query_cache" value="true" />
+
+      <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
+       <property name="hibernate.c3p0.min_size" value="5" />
+      <property name="hibernate.c3p0.max_size" value="20" />
+      <property name="hibernate.c3p0.timeout" value="180" />
+      <property name="hibernate.c3p0.idle_test_period" value="100" />
+      
+      
+      <property name="hibernate.ejb.event.post-insert"
+        value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.hibernate.envers.event.AuditEventListener" />
+      <property name="hibernate.ejb.event.post-update"
+        value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.hibernate.envers.event.AuditEventListener" />
+      <property name="hibernate.ejb.event.post-delete"
+        value="org.hibernate.ejb.event.EJB3PostDeleteEventListener,org.hibernate.envers.event.AuditEventListener" />
+      <property name="hibernate.ejb.event.pre-collection-update" value="org.hibernate.envers.event.AuditEventListener" />
+      <property name="hibernate.ejb.event.pre-collection-remove" value="org.hibernate.envers.event.AuditEventListener" />
+      <property name="hibernate.ejb.event.post-collection-recreate" value="org.hibernate.envers.event.AuditEventListener" />
+
+    </properties>
+  </persistence-unit>
+</persistence>

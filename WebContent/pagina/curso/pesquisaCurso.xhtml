@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces">
+
+  <f:metadata>
+    <f:event listener="#{cursoBean.inicializar}" type="preRenderView" />
+  </f:metadata>
+
+  <ui:define name="titulo">Pesquisa Curso</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado">
+      <p:growl redisplay="false" />
+      <h2>Pesquisa Curso</h2>
+      <p:fieldset legend="Digite o nome do curso">
+        <h:panelGrid columns="2">
+          <h:outputLabel value="Nome:" />
+          <p:inputText id="tag" value="#{cursoBean.cursoExiste}" style="width:305px" />
+               &nbsp;
+		    </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <p:commandButton value="Pesquisar" icon="ui-icon-search" action="#{cursoBean.pesquisaCurso()}"
+            update=":frmLista :frmDado" />
+          <p:commandButton value="Novo" icon="ui-icon-check" action="#{cursoBean.novo()}" process="@this" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+    <h:form id="formImprimir" target="_blank">
+      <h2>Listagem dos Cursos</h2>
+      <p:commandButton value="Imprimir" icon="ui-icon-check" actionListener="#{cursoBean.relatorioDeCurso}" ajax="false" />
+    </h:form>
+
+    <h:form id="frmLista">
+      <p:growl redisplay="false" />
+      <p:dataTable value="#{cursoBean.cursos}" var="curso" paginator="true" rows="30"
+        paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+        rowKey="#{curso.id}" paginatorPosition="bottom"
+        currentPageReportTemplate="  {startRecord} a {endRecord} no total de {totalRecords} - Página: {currentPage} / {totalPages} "
+        emptyMessage="Nenhum registro">
+
+        <p:column headerText="Nome" sortBy="#{curso.nome}" >
+          <h:outputText value="#{curso.nome}" />
+        </p:column>
+
+        <p:column headerText="Status" style="width:150px">
+          <h:outputText value="#{curso.status.descricao}" />
+        </p:column>
+
+        <p:column headerText="Ações" style="width:100px">
+          <div align="center">
+            <p:button icon="ui-icon-pencil" title="Editar" outcome="/pagina/curso/manterCurso">
+              <f:param name="id" value="#{curso.id}" />
+            </p:button>
+
+            <p:commandButton icon="ui-icon-trash" title="Excluir" process="@this" action="#{cursoBean.remove(curso.id)}"
+              update=":frmLista">
+              <p:confirm header="Exclusão do Curso" message="Deseja excluir este curso?" icon="ui-icon-alert" />
+            </p:commandButton>
+          </div>
+        </p:column>
+
+      </p:dataTable>
+    </h:form>
+  </ui:define>
+</ui:composition>

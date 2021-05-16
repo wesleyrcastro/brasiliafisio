@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="movimentacaoGeral" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3aff99b2-03d3-4432-8916-085d91e18246">
+	<property name="ireport.zoom" value="1.7715610000000064"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebra">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#CCCCCC"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="aluno" class="br.com.brasiliaFisio.cursos.modelo.Aluno">
+		<fieldDescription><![CDATA[aluno]]></fieldDescription>
+	</field>
+	<field name="curso" class="br.com.brasiliaFisio.cursos.modelo.Curso">
+		<fieldDescription><![CDATA[curso]]></fieldDescription>
+	</field>
+	<field name="dataFim" class="java.util.Calendar">
+		<fieldDescription><![CDATA[dataFim]]></fieldDescription>
+	</field>
+	<field name="dataInicio" class="java.util.Calendar">
+		<fieldDescription><![CDATA[dataInicio]]></fieldDescription>
+	</field>
+	<variable name="valor_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="valor_2" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="valor_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="83" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="79" uuid="ba6c3b95-6836-4cd0-a0ad-83ac85fcc113"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="79" backcolor="#CCCCCC" uuid="519faf7f-c780-4ee7-ad23-6e325f0ee0c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Relatório da Turma]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy - HH:mm:ss">
+				<reportElement x="4" y="56" width="547" height="19" uuid="d5006201-e20d-4d48-8e27-df0ad6857ee2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="4" y="36" width="547" height="20" isRemoveLineWhenBlank="true" uuid="1891c853-3d16-49ee-8337-ed6b5efad8bb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso}.getNome()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="37">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="32" uuid="25befcbd-c534-4584-ac81-60ef75282738"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="32" backcolor="#CCCCCC" uuid="170be6e0-dd41-4f8f-8226-44fa7bd65b6a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Relatório Geral de Turma]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#CCCCCC" uuid="add576dd-ec02-463c-8981-cf00a772ad7f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="0" width="23" height="20" uuid="482303db-c420-41f3-a0a4-f6251487c255"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="0" width="145" height="20" uuid="cfede883-f9a4-46b1-b724-01e2ac31ba01"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALUNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="0" width="138" height="20" uuid="c13e9aae-04e5-413c-be70-f9a115999b16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-MAIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="403" y="0" width="75" height="20" uuid="abd0346b-c61b-435b-aeb6-d287c5427c49"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSCRIÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="0" width="73" height="20" uuid="093c7002-4fa5-466d-b019-fa9e871ac35e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PARCELA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="0" width="80" height="20" uuid="01311145-6859-4fdc-85c6-2c4d9c85da62"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEFONE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement style="zebra" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="20" uuid="000f89a2-dcf8-487e-8670-723bcf00fdaa"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="4" y="0" width="23" height="20" uuid="6d682546-bfbb-4e18-8008-b99238ad5191"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="31" y="0" width="145" height="20" uuid="7c4a0e1f-7b28-4bef-8bf0-10e9012ec422"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aluno}.getNome()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="178" y="0" width="136" height="20" uuid="62ca25a7-938f-4503-8377-5896a531509a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aluno}.getEmail()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="320" y="0" width="93" height="20" uuid="533d5ab3-2503-48e9-9cf9-ed3340568ca1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aluno}.getTelCelular()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="431" y="8" width="80" height="20" uuid="9d712b03-d067-4417-8ec4-a16263e91d93"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="511" y="8" width="40" height="20" uuid="3adb4b2c-6b86-4f28-888e-9bf45fa51778"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="24">
+			<staticText>
+				<reportElement x="4" y="4" width="27" height="20" uuid="90eed3c3-c433-4fae-9b4a-fe54f54b667f"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="31" y="4" width="145" height="20" uuid="0127637f-9d71-414e-b850-d383cfa40581"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

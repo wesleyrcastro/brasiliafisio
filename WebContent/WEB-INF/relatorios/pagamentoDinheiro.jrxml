@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="movimentacaoGeral" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3aff99b2-03d3-4432-8916-085d91e18246">
+	<property name="ireport.zoom" value="1.464100000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebra">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#CCCCCC"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="aluno" class="br.com.brasiliaFisio.cursos.modelo.Aluno">
+		<fieldDescription><![CDATA[aluno]]></fieldDescription>
+	</field>
+	<field name="curso" class="br.com.brasiliaFisio.cursos.modelo.Curso">
+		<fieldDescription><![CDATA[curso]]></fieldDescription>
+	</field>
+	<field name="data" class="java.util.Calendar">
+		<fieldDescription><![CDATA[data]]></fieldDescription>
+	</field>
+	<field name="obs" class="java.lang.String">
+		<fieldDescription><![CDATA[obs]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<variable name="valor_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="valor_2" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="valor_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="valor_4" class="java.math.BigDecimal" resetType="Group" resetGroup="contaTitular" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="valor_5" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<group name="contaTitular">
+		<groupExpression><![CDATA[]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="85" forecolor="#000000" backcolor="#CCCCCC" uuid="519faf7f-c780-4ee7-ad23-6e325f0ee0c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Relatório de Pagamento / Dinheiro]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy - HH:mm:ss">
+				<reportElement x="4" y="56" width="791" height="19" uuid="d5006201-e20d-4d48-8e27-df0ad6857ee2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="32" uuid="25befcbd-c534-4584-ac81-60ef75282738"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="37" backcolor="#CCCCCC" uuid="170be6e0-dd41-4f8f-8226-44fa7bd65b6a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Relatório Geral de Pagamento / Dinheiro]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="20" backcolor="#CCCCCC" uuid="add576dd-ec02-463c-8981-cf00a772ad7f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="0" width="23" height="20" uuid="482303db-c420-41f3-a0a4-f6251487c255"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="649" y="0" width="146" height="20" uuid="f77e5b58-165f-4f20-b647-7028f2fee4d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBSERVAÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="0" width="184" height="20" uuid="c7e803d2-c84a-44bf-8481-38f2067cd559"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALUNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="0" width="187" height="20" uuid="54e15825-cb33-44ef-8844-f32b6a676169"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CURSO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="535" y="0" width="100" height="20" uuid="68defa03-94fb-4c8a-8722-93766b4f6de8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="0" width="100" height="20" uuid="3199668e-9a06-4fbf-9a29-ae90df9b6093"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement style="zebra" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="20" uuid="000f89a2-dcf8-487e-8670-723bcf00fdaa"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="4" y="0" width="23" height="20" uuid="6d682546-bfbb-4e18-8008-b99238ad5191"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="31" y="0" width="184" height="20" isRemoveLineWhenBlank="true" uuid="16fb17dc-b4ef-450c-8046-2111ca8a3492"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aluno}.getNome()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="227" y="0" width="187" height="20" isRemoveLineWhenBlank="true" uuid="58514f6e-e3c0-43c6-bf4d-ddbac9f030ea"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso}.getNome()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="425" y="0" width="100" height="20" isRemoveLineWhenBlank="true" uuid="d38b2b38-be95-4c36-894c-4a9af2f717b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data}.getTime()]]></textFieldExpression>
+			</textField>
+			<textField pattern="R$ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="535" y="0" width="100" height="20" isRemoveLineWhenBlank="true" uuid="5fff79d7-04e7-4ddd-bb9a-8b7216bad591"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="649" y="0" width="146" height="20" isRemoveLineWhenBlank="true" uuid="f0dac333-4ed4-453b-90ca-11cb531287d0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{obs}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="675" y="8" width="80" height="20" uuid="9d712b03-d067-4417-8ec4-a16263e91d93"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="755" y="8" width="40" height="20" uuid="3adb4b2c-6b86-4f28-888e-9bf45fa51778"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="24">
+			<staticText>
+				<reportElement x="4" y="4" width="27" height="20" uuid="90eed3c3-c433-4fae-9b4a-fe54f54b667f"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="31" y="4" width="145" height="20" uuid="0127637f-9d71-414e-b850-d383cfa40581"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="R$ #,##0.00">
+				<reportElement x="568" y="3" width="100" height="20" uuid="4fbfb435-d0cd-4124-a2f4-40a92c4028f1"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{valor_5}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="541" y="3" width="27" height="20" uuid="ca3c8594-7770-4a1f-9e82-8aed2507ed47"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

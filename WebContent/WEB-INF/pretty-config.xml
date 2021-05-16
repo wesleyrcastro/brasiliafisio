@@ -1,0 +1,127 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+	
+	<!-- REGRAS GERAIS -->
+
+	<url-mapping id="404">
+		<pattern value="/public/404" />
+		<view-id value="/error/404.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="erro">
+		<pattern value="/public/erro" />
+		<view-id value="/error/error.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="index">
+		<pattern value="/public/index" />
+		<view-id value="/pagina/login/index.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="home">
+		<pattern value="/public/home" />
+		<view-id value="/pagina/paginaInicial/paginaInicial.xhtml" />
+	</url-mapping>
+
+	<!-- CADASTRO -->
+
+	<!-- ALUNO -->
+	<url-mapping id="alunoListar">
+		<pattern value="/aluno" />
+		<view-id value="/pagina/aluno/pesquisaAluno.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="alunoManter">
+		<pattern value="/cadastro/aluno" />
+		<view-id value="/pagina/aluno/manterAluno.xhtml" />
+	</url-mapping>
+	
+	<!-- CURSO -->
+	<url-mapping id="cursoListar">
+		<pattern value="/curso" />
+		<view-id value="/pagina/curso/pesquisaCurso.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="cursoManter">
+		<pattern value="/cadastro/curso" />
+		<view-id value="/pagina/curso/manterCurso.xhtml" />
+	</url-mapping>
+	
+	<!-- DADOS BANCARIOS -->
+	<url-mapping id="graficoCheque">
+		<pattern value="/grafico/cheque" />
+		<view-id value="/pagina/dadosBancarios/graficoCheque.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="graficoDinheiro">
+		<pattern value="/grafico/dinheiro" />
+		<view-id value="/pagina/dadosBancarios/graficoDinheiro.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="chequeManter">
+		<pattern value="/cadastro/cheque" />
+		<view-id value="/pagina/dadosBancarios/manterDadosBancarios.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="dadosBancariosListar">
+		<pattern value="/pagamento/cheque" />
+		<view-id value="/pagina/dadosBancarios/pesquisaDadosBancarios.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="dinheiroManter">
+		<pattern value="/cadastro/dinheiro" />
+		<view-id value="/pagina/dadosBancarios/manterDinheiro.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="dinheiroListar">
+		<pattern value="/pagamento/dinheiro" />
+		<view-id value="/pagina/dadosBancarios/pesquisaDinheiro.xhtml" />
+	</url-mapping>
+	
+	<!-- E-MAIL -->
+	<url-mapping id="email">
+		<pattern value="/email" />
+		<view-id value="/pagina/email/email.xhtml" />
+	</url-mapping>
+	
+	<!-- INSCRIÇÃO -->
+	<url-mapping id="graficoIndicacao">
+		<pattern value="/graficoIndicacao" />
+		<view-id value="/pagina/inscricao/graficoPorIndicacao.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="inscricaoListar">
+		<pattern value="/inscricao" />
+		<view-id value="/pagina/inscricao/pesquisaInscricao.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="inscricaoManter">
+		<pattern value="/cadastro/inscricao" />
+		<view-id value="/pagina/inscricao/manterInscricao.xhtml" />
+	</url-mapping>
+	
+	<!-- TURMA -->
+	<url-mapping id="turmaListar">
+		<pattern value="/turma" />
+		<view-id value="/pagina/turma/pesquisaTurma.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="turmaManter">
+		<pattern value="/cadastro/turma" />
+		<view-id value="/pagina/turma/manterTurma.xhtml" />
+	</url-mapping>
+	
+	<!-- USUÁRIO -->
+	<url-mapping id="usuarioListar">
+		<pattern value="/usuario" />
+		<view-id value="/pagina/usuario/pesquisaUsuario.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="usuarioManter">
+		<pattern value="/cadastro/usuario" />
+		<view-id value="/pagina/usuario/manterUsuario.xhtml" />
+	</url-mapping>
+	
+</pretty-config>

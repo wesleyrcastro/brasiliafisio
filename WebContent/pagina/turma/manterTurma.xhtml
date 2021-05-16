@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/WEB-INF/template/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:s="http://jboss.org/seam/faces" xmlns:o="http://omnifaces.org/ui">
+
+  <f:metadata>
+    <o:viewParam name="id" value="#{manterTurmaBean.turma}" />
+  </f:metadata>
+
+  <ui:define name="titulo">Cadastro da Turma</ui:define>
+
+  <ui:define name="corpo">
+    <br />
+    <h:form id="frmDado">
+      <p:growl redisplay="false" sticky="false" life="30000" />
+      <h2>
+        <h:outputText value="Nova Turma" rendered="#{empty manterTurmaBean.turma.id}" />
+        <h:outputText value="Editar Turma" rendered="#{not empty manterTurmaBean.turma.id}" />
+      </h2>
+      <p:fieldset legend="Dados da Turma">
+
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Aluno:" for="aluno" />
+          <p:autoComplete id="aluno" value="#{manterTurmaBean.turma.aluno}"
+            completeMethod="#{pesquisarTurmaBean.buscaNomeAluno}" minQueryLength="3" var="aluno" itemValue="#{aluno}"
+            itemLabel="#{aluno.nome}" size="37" />
+        </h:panelGrid>
+
+        <h:panelGrid columns="2">
+          <h:outputLabel value="* Curso:" />
+          <p:selectOneMenu value="#{manterTurmaBean.turma.curso}" required="true" requiredMessage="Curso obrigatório">
+            <f:selectItem itemLabel="-- Selecione --" />
+            <f:selectItems value="#{cursoBean.listaComboComCurso}" var="curso" itemValue="#{curso}"
+              itemLabel="#{curso.nome}" />
+          </p:selectOneMenu>
+        </h:panelGrid>
+
+        <h:panelGrid columns="4">
+          <h:outputLabel value="* Data Início:" for="inicio" />
+          <p:calendar id="inicio" pattern="dd/MM/yyyy" value="#{manterTurmaBean.turma.dataInicio.time}" locale="pt_BR"
+            effect="explode" effectDuration="slow" required="true" requiredMessage="Data inicio obrigatório" mask="true"
+            converterMessage="Digite uma data início válida." />
+
+          <h:outputLabel value="* Data Fim:" for="fim" />
+          <p:calendar id="fim" pattern="dd/MM/yyyy" value="#{manterTurmaBean.turma.dataFim.time}" locale="pt_BR"
+            effect="explode" effectDuration="slow" required="true" requiredMessage="Data fim obrigatório" mask="true"
+            converterMessage="Digite uma data fim válida." />
+        </h:panelGrid>
+        <br />
+        <h:panelGrid columns="2">
+          <p:commandButton id="s" value="Salvar" icon="ui-icon-check" action="#{manterTurmaBean.grava}"
+            rendered="#{manterTurmaBean.turma.id == null}" update=":frmDado">
+            <p:confirm header="Inclusão do Aluno na Turma" message="Confirma a inclusão do aluno na turma?"
+              icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="a" value="Alterar" icon="ui-icon-check" action="#{manterTurmaBean.grava}"
+            rendered="#{manterTurmaBean.turma.id != null}" update=":frmDado">
+            <p:confirm header="Alterar Aluno" message="Confirma alteração do aluno na turma?" icon="ui-icon-alert" />
+          </p:commandButton>
+
+          <p:commandButton id="v" value="Voltar" icon="ui-icon-alert"
+            action="/pagina/turma/pesquisaTurma?faces-redirect=true" immediate="true" />
+        </h:panelGrid>
+      </p:fieldset>
+    </h:form>
+
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+        <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+      <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+  </ui:define>
+</ui:composition>
